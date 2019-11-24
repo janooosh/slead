@@ -34,26 +34,31 @@ if (!function_exists('scrape_website_gtm')) {
 }
 
 if (!function_exists('scrape_website_googleanalytics')) {
-    function scrape_website_googleanalytics($array_to_search)
+    function scrape_website_googleanalytics($array_to_search, $array_to_search_2)
     {
         //Pattern
-        $patterns[] = "/gtag\(\'config\'\,/";
+        //$patterns[] = "/gtag\(\'config\'\,/";
         $patterns[] = "/\'UA-\b[0-9]{6,}/";
+
+        $vergleich[] = "https://www.google-analytics.com/plugins/ua/ec.js";
+
 
         //Match?
         foreach ($array_to_search as $element) {
             //Must match all patterns
             foreach ($patterns as $pattern) {
-                $failed = 0;
 
-                if (!preg_match($pattern, $element)) {
-                    $failed++;
-                }
-                if ($failed < 1) {
+                if (preg_match($pattern, $element)) {
                     return true;
                 }
             }
         }
+        foreach ($vergleich as $test) {
+            if (in_array($test, $array_to_search_2)) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
@@ -109,5 +114,5 @@ function scrape_cms($url)
     $api_key = '3443cdfdfb3e2d8896492292b9e21cec8bedb01c7a1b98ce991f02a793f2c8f2b92546';
     $detector = new \WhatCMS\WhatCMS($api_key);
     $result     = $detector->CheckUrl($url);
-    return($result);
+    return ($result);
 }

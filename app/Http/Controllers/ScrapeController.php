@@ -51,11 +51,12 @@ class ScrapeController extends Controller
             return($node->text());
         });
         $tags_meta_names = $crawler->filter('meta')->extract('name');
+        $tags_script_src = $crawler->filter('script')->extract('src');
 
         //GTM
         $has_gtm = scrape_website_gtm($tags_script);
         //Google Analytics
-        $has_googleanalytics = scrape_website_googleanalytics($tags_script);
+        $has_googleanalytics = scrape_website_googleanalytics($tags_script,$tags_script_src);
         //AdWords
         $has_googleads = scrape_website_googleads($tags_script);
         //SiteVerification
