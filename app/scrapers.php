@@ -34,16 +34,19 @@ if (!function_exists('scrape_website_gtm')) {
 }
 
 if (!function_exists('scrape_website_googleanalytics')) {
-    function scrape_website_googleanalytics($array_to_search, $array_to_search_2)
+    function scrape_website_googleanalytics($array_to_search)
     {
         //Pattern
         //$patterns[] = "/gtag\(\'config\'\,/";
         $patterns[] = "/\'UA-\b[0-9]{6,}/";
+        $patterns[] = "/analytics\.js/";
+        $patterns[] = "/gtag\.js/";
+        $patterns[] = "/ga\.js/";
 
-        $vergleich[] = "https://www.google-analytics.com/plugins/ua/ec.js";
+        //$vergleich[] = "https://www.google-analytics.com/plugins/ua/ec.js";
 
 
-        //Match?
+        //Match? [OR]
         foreach ($array_to_search as $element) {
             //Must match all patterns
             foreach ($patterns as $pattern) {
@@ -51,11 +54,6 @@ if (!function_exists('scrape_website_googleanalytics')) {
                 if (preg_match($pattern, $element)) {
                     return true;
                 }
-            }
-        }
-        foreach ($vergleich as $test) {
-            if (in_array($test, $array_to_search_2)) {
-                return true;
             }
         }
 

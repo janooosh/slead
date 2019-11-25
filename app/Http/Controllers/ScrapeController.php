@@ -49,14 +49,22 @@ class ScrapeController extends Controller
         //Script tags
         $tags_script = $crawler->filter('script')->each(function ($node) {
             return($node->text());
+            //return($node);
         });
         $tags_meta_names = $crawler->filter('meta')->extract('name');
         $tags_script_src = $crawler->filter('script')->extract('src');
 
+        //return $tags_script_src;
+        foreach($tags_script as $t) {
+            print($t."<hr/>");
+        }
+        return;
+
         //GTM
         $has_gtm = scrape_website_gtm($tags_script);
         //Google Analytics
-        $has_googleanalytics = scrape_website_googleanalytics($tags_script,$tags_script_src);
+        $has_googleanalytics = scrape_website_googleanalytics($tags_script);
+        //return $tags
         //AdWords
         $has_googleads = scrape_website_googleads($tags_script);
         //SiteVerification
