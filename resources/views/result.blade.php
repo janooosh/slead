@@ -39,10 +39,9 @@
                             <th scope="col">URL</th>
                             <th scope="col">Tagmanager</th>
                             <th scope="col">Google Analytics</th>
-                            <th scope="col">Google AdWords</th>
                             <th scope="col">CMS</th>
                             <th scope="col">CMS version</th>
-                            <th scope="col">Update</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,10 +50,9 @@
                             <td>{{$scrape->url}}</td>
                             <td>{{$scrape->gtm?'Yes':'No'}}</td>
                             <td>{{$scrape->ganalytics?'Yes':'No'}}</td>
-                            <td>{{$scrape->gads?'Yes':'No'}}</td>
                             <td>{{$scrape->cms}}</td>
                             <td>{{$scrape->cms_version}}</td>
-                            <td><a href="{{route('update',$scrape->id)}}" role="button" class="btn btn-primary btn-small">Update</a></td>
+                            <td><a href="{{route('inspect',$scrape->id)}}" role="button" class="btn btn-success btn-small">Inspect</a></td>
                             <td><a href="{{route('delete',$scrape->id)}}" role="button" class="btn btn-danger btn-small">Delete</a></td>
                         </tr>
                         @endforeach

@@ -6,11 +6,11 @@
  * This document contains the scraper functions for the different services.
  */
 
-if(!function_exists('scrape_gtm')) {
-    function scrape_gtm($array_scripts,$url) {
+if (!function_exists('scrape_gtm')) {
+    function scrape_gtm($array_scripts, $url)
+    {
         $patterns[] = "/googletagmanager.com/";
         $patterns[] = "/GTM-\b[a-zA-Z0-9]{7}\b/";
-   
     }
 }
 
@@ -64,8 +64,8 @@ if (!function_exists('scrape_website_googleanalytics')) {
             }
         }
 
-        foreach($vergleich as $v) {
-            if(in_array($v,$array_to_search)) {
+        foreach ($vergleich as $v) {
+            if (in_array($v, $array_to_search)) {
                 return true;
             }
         }
@@ -112,6 +112,81 @@ if (!function_exists('scrape_website_googlesiteverification')) {
             }
         }
         return false;
+    }
+}
+
+if (!function_exists('scrape_fb_links')) {
+    function scrape_fb_links($href_array)
+    {
+        $patterns[] = "/facebook.com/";
+        $patterns[] = "/fb.com/";
+
+        $results = array();
+
+        foreach ($href_array as $element) {
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $element)) {
+                    $results[] = $element;
+                }
+            }
+        }
+        $results = array_unique($results);
+        return $results;
+    }
+}
+if (!function_exists('scrape_ig_links')) {
+    function scrape_ig_links($href_array)
+    {
+        $patterns[] = "/instagram.com/";
+        $patterns[] = "/ig.com/";
+
+        $results = array();
+
+        foreach ($href_array as $element) {
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $element)) {
+                    $results[] = $element;
+                }
+            }
+        }
+        $results = array_unique($results);
+        return $results;
+    }
+}
+if (!function_exists('scrape_twitter_links')) {
+    function scrape_twitter_links($href_array)
+    {
+        $patterns[] = "/twitter.com/";
+
+        $results = array();
+
+        foreach ($href_array as $element) {
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $element)) {
+                    $results[] = $element;
+                }
+            }
+        }
+        $results = array_unique($results);
+        return $results;
+    }
+}
+if (!function_exists('scrape_linkedin_links')) {
+    function scrape_linkedin_links($href_array)
+    {
+        $patterns[] = "/linkedin.com/";
+
+        $results = array();
+
+        foreach ($href_array as $element) {
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $element)) {
+                    $results[] = $element;
+                }
+            }
+        }
+        $results = array_unique($results);
+        return $results;
     }
 }
 

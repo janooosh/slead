@@ -29,15 +29,27 @@ class ScrapeController extends Controller
         /*$link = $crawler->selectLink('Security Advisories')->link();
         $crawler = $client->click($link); */
 
+        //Get Data
+        //SCRIPT
         $array_script = $crawler->filter('script')->each(function ($node) {
 
             return($node->text() . "\n");
         });
 
+        //SOCIAL LINKS
+        $links = $crawler->filter('a')->extract('href');
+
+        $fb_links = scrape_fb_links($links);
+        $ig_links = scrape_ig_links($links);
+        $twitter_links = scrape_twitter_links($links);
+        $linkedin_links = scrape_linkedin_links($links);
+
         //GTM
         $has_gtm = scrape_website_gtm($array_script);
         $has_googleanalytics = scrape_website_googleanalytics($array_script);
         $has_googleads = scrape_website_googleads($array_script);
+
+        
 
         //CMS
         $cms_result = scrape_cms($url);
@@ -48,6 +60,10 @@ class ScrapeController extends Controller
         $scrape->ganalytics = $has_googleanalytics;
         $scrape->gads = $has_googleads;
         $scrape->gsite = false;
+        $scrape->fb_links = json_encode($fb_links);
+        $scrape->ig_links = json_encode($ig_links);
+        $scrape->twitter_links = json_encode($twitter_links);
+        $scrape->linkedin_links = json_encode($linkedin_links);
         if(is_null($cms_result['result']['name'])) {
             $scrape->cms = "Unbekannt";
         }
@@ -177,8 +193,14 @@ class ScrapeController extends Controller
     }
 
     public function inspect($id) {
+        $scrape = scrape::find($id);
 
-        return view('inspector', compact('scrape'));
+        $fb = json_decode($scrape->fb_links);
+        $ig = json_decode($scrape->ig_links);
+        $twitter = json_decode($scrape->twitter_links);
+        $linkedin = json_decode($scrape->linkedin_links);
+
+        return view('inspector', compact('scrape','fb','ig','twitter','linkedin'));
     }
 
     

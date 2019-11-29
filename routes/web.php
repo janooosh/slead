@@ -17,3 +17,5 @@ Route::get('/','ScrapeController@index')->name('home');
 Route::post('/','ScrapeController@scrape')->name('scrape');
 Route::get('/update/{id}','ScrapeController@update')->name('update');
 Route::get('/delete/{id}','ScrapeController@delete')->name('delete');
+
+Route::get('/inspect/{id}','ScrapeController@inspect')->name('inspect');
