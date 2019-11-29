@@ -37,23 +37,26 @@ if (!function_exists('scrape_website_googleanalytics')) {
     function scrape_website_googleanalytics($array_to_search)
     {
         //Pattern
-        $patterns[] = "/gtag\(\'config\'\,/";
+        //$patterns[] = "/gtag\(\'config\'\,/";
         $patterns[] = "/\'UA-\b[0-9]{6,}/";
+        $patterns[] = "/analytics\.js/";
+        $patterns[] = "/gtag\.js/";
+        $patterns[] = "/ga\.js/";
 
-        //Match?
+        //$vergleich[] = "https://www.google-analytics.com/plugins/ua/ec.js";
+
+
+        //Match? [OR]
         foreach ($array_to_search as $element) {
             //Must match all patterns
             foreach ($patterns as $pattern) {
-                $failed = 0;
 
-                if (!preg_match($pattern, $element)) {
-                    $failed++;
-                }
-                if ($failed < 1) {
+                if (preg_match($pattern, $element)) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 }
@@ -109,5 +112,5 @@ function scrape_cms($url)
     $api_key = '3443cdfdfb3e2d8896492292b9e21cec8bedb01c7a1b98ce991f02a793f2c8f2b92546';
     $detector = new \WhatCMS\WhatCMS($api_key);
     $result     = $detector->CheckUrl($url);
-    return($result);
+    return ($result);
 }
