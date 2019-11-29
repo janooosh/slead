@@ -14,6 +14,6 @@
 
 Route::get('/','ScrapeController@index')->name('home');
 
-Route::post('/','ScrapeController@scrapeTest')->name('scrape');
+Route::post('/','ScrapeController@scrape')->name('scrape');
 Route::get('/update/{id}','ScrapeController@update')->name('update');
 Route::get('/delete/{id}','ScrapeController@delete')->name('delete');

@@ -6,6 +6,14 @@
  * This document contains the scraper functions for the different services.
  */
 
+if(!function_exists('scrape_gtm')) {
+    function scrape_gtm($array_scripts,$url) {
+        $patterns[] = "/googletagmanager.com/";
+        $patterns[] = "/GTM-\b[a-zA-Z0-9]{7}\b/";
+   
+    }
+}
+
 if (!function_exists('scrape_website_gtm')) {
     function scrape_website_gtm($array_to_search)
     {
@@ -43,17 +51,22 @@ if (!function_exists('scrape_website_googleanalytics')) {
         $patterns[] = "/gtag\.js/";
         $patterns[] = "/ga\.js/";
 
-        //$vergleich[] = "https://www.google-analytics.com/plugins/ua/ec.js";
+        $vergleich[] = "https://www.google-analytics.com/plugins/ua/ec.js";
 
 
         //Match? [OR]
         foreach ($array_to_search as $element) {
             //Must match all patterns
             foreach ($patterns as $pattern) {
-
                 if (preg_match($pattern, $element)) {
                     return true;
                 }
+            }
+        }
+
+        foreach($vergleich as $v) {
+            if(in_array($v,$array_to_search)) {
+                return true;
             }
         }
 
@@ -65,19 +78,14 @@ if (!function_exists('scrape_website_googleads')) {
     function scrape_website_googleads($array_to_search)
     {
         //Pattern
-        $patterns[] = "/gtag\(\'config\'\,/";
+        $patterns[] = "/adwords/";
         $patterns[] = "/\'AW-\b[0-9]{9,}/";
 
         //Match?
         foreach ($array_to_search as $element) {
             //Must match all patterns
             foreach ($patterns as $pattern) {
-                $failed = 0;
-
-                if (!preg_match($pattern, $element)) {
-                    $failed++;
-                }
-                if ($failed < 1) {
+                if (preg_match($pattern, $element)) {
                     return true;
                 }
             }

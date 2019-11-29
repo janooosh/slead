@@ -22,18 +22,47 @@ class ScrapeController extends Controller
         $req->validate([
             'url' => 'required|url'
         ]);
+        $url = $req->input('url');
         $client = new Client();
         $fertig = array();
         $crawler = $client->request('GET', $req->input('url'));
         /*$link = $crawler->selectLink('Security Advisories')->link();
         $crawler = $client->click($link); */
 
-        $crawler->filter('script')->each(function ($node) {
+        $array_script = $crawler->filter('script')->each(function ($node) {
 
-            print($node->text() . "\n");
+            return($node->text() . "\n");
         });
-        return $fertig;
-        //return $fertig;
+
+        //GTM
+        $has_gtm = scrape_website_gtm($array_script);
+        $has_googleanalytics = scrape_website_googleanalytics($array_script);
+        $has_googleads = scrape_website_googleads($array_script);
+
+        //CMS
+        $cms_result = scrape_cms($url);
+
+        $scrape = new Scrape();
+        $scrape->url = $url;
+        $scrape->gtm = $has_gtm;
+        $scrape->ganalytics = $has_googleanalytics;
+        $scrape->gads = $has_googleads;
+        $scrape->gsite = false;
+        if(is_null($cms_result['result']['name'])) {
+            $scrape->cms = "Unbekannt";
+        }
+        else {
+            $scrape->cms = $cms_result['result']['name'];
+        }
+        $scrape->cms_version = $cms_result['result']['version'];
+        $scrape->save();
+
+        $scrapes = scrape::all();
+        
+        //return $cms_result->result->name;
+        //$cms_data = json_decode($cms_result); 
+
+        return view('result', compact('url','scrapes'))->with('success','Scrape successful');
     }
 
     public function scrapeTest(Request $req)
@@ -118,8 +147,7 @@ class ScrapeController extends Controller
         $has_googleanalytics = scrape_website_googleanalytics($tags_script);
         //AdWords
         $has_googleads = scrape_website_googleads($tags_script);
-        //SiteVerification
-        $has_siteverification = scrape_website_googlesiteverification($tags_meta_names);
+
 
         //CMS
         $cms_result = scrape_cms($url);
@@ -128,7 +156,7 @@ class ScrapeController extends Controller
         $scrape->gtm = $has_gtm;
         $scrape->ganalytics = $has_googleanalytics;
         $scrape->gads = $has_googleads;
-        $scrape->gsite = $has_siteverification;
+        $scrape->gsite = false;
         if(is_null($cms_result['result']['name'])) {
             $scrape->cms = "Unbekannt";
         }
@@ -146,6 +174,11 @@ class ScrapeController extends Controller
         $scrape->delete();
 
         return redirect()->route('home')->with('success','Scrape Deleted');
+    }
+
+    public function inspect($id) {
+
+        return view('inspector', compact('scrape'));
     }
 
     

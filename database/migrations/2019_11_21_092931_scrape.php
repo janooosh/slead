@@ -20,6 +20,7 @@ class Scrape extends Migration
             $table->boolean('ganalytics');
             $table->boolean('gads');
             $table->boolean('gsite');
+            $table->string('facebook_links');
             $table->string('cms');
             $table->string('cms_version')->nullable();
             $table->timestamps();
