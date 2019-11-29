@@ -146,7 +146,7 @@ if (!function_exists('scrape_ig_links')) {
 
         foreach ($href_array as $element) {
             foreach ($patterns as $pattern) {
-                if (preg_match($pattern, $element) && count($results)<50) {
+                if (preg_match($pattern, $element) && count($results)<20) {
                     $results[] = $element;
                 }
             }
