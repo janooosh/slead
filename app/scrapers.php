@@ -140,11 +140,13 @@ if (!function_exists('scrape_ig_links')) {
         $patterns[] = "/instagram.com/";
         $patterns[] = "/ig.com/";
 
+        $anti_preg = "/instagram.com\/p/";
+
         $results = array();
 
         foreach ($href_array as $element) {
             foreach ($patterns as $pattern) {
-                if (preg_match($pattern, $element)) {
+                if (preg_match($pattern, $element) && !preg_match($anti_preg,$element) && count($results)<50) {
                     $results[] = $element;
                 }
             }
