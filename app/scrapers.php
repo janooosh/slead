@@ -74,6 +74,30 @@ if (!function_exists('scrape_website_googleanalytics')) {
     }
 }
 
+if (!function_exists('scrape_fb_pixel')) {
+    function scrape_fb_pixel($array_to_search)
+    {
+        //Pattern
+        //$patterns[] = "/gtag\(\'config\'\,/";
+        $patterns[] = "/connect\.facebook\.net/";
+        $patterns[] = "/f\.fbq/";
+        $patterns[] = "/gtag\.js/";
+        $patterns[] = "/ga\.js/";
+
+
+        //Match? [OR]
+        foreach ($array_to_search as $element) {
+            //Must match all patterns
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $element)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
 if (!function_exists('scrape_website_googleads')) {
     function scrape_website_googleads($array_to_search)
     {

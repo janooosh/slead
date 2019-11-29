@@ -48,6 +48,7 @@ class ScrapeController extends Controller
         $has_gtm = scrape_website_gtm($array_script);
         $has_googleanalytics = scrape_website_googleanalytics($array_script);
         $has_googleads = scrape_website_googleads($array_script);
+        $has_fbpixel = scrape_fb_pixel($array_script);
 
         
 
@@ -60,6 +61,7 @@ class ScrapeController extends Controller
         $scrape->ganalytics = $has_googleanalytics;
         $scrape->gads = $has_googleads;
         $scrape->gsite = false;
+        $scrape->fb_pixel = $has_fbpixel;
         $scrape->fb_links = json_encode($fb_links);
         $scrape->ig_links = json_encode($ig_links);
         $scrape->twitter_links = json_encode($twitter_links);

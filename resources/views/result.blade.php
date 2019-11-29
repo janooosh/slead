@@ -39,6 +39,7 @@
                             <th scope="col">URL</th>
                             <th scope="col">Tagmanager</th>
                             <th scope="col">Google Analytics</th>
+                            <th scope="col">FB Pixel</th>
                             <th scope="col">CMS</th>
                             <th scope="col">CMS version</th>
                             <th scope="col">Actions</th>
@@ -50,6 +51,7 @@
                             <td>{{$scrape->url}}</td>
                             <td>{{$scrape->gtm?'Yes':'No'}}</td>
                             <td>{{$scrape->ganalytics?'Yes':'No'}}</td>
+                            <td>{{$scrape->fb_pixel?'Yes':'No'}}</td>
                             <td>{{$scrape->cms}}</td>
                             <td>{{$scrape->cms_version}}</td>
                             <td><a href="{{route('inspect',$scrape->id)}}" role="button" class="btn btn-success btn-small">Inspect</a></td>
