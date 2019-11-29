@@ -45,6 +45,7 @@ class ScrapeController extends Controller
         $url = $req->input('url');
         $client = new Client();
         $crawler = $client->request('GET', $url);
+        #Hello World
 
         //Script tags
         $tags_script = $crawler->filter('script')->each(function ($node) {
