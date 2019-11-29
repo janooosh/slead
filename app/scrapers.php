@@ -125,7 +125,7 @@ if (!function_exists('scrape_fb_links')) {
 
         foreach ($href_array as $element) {
             foreach ($patterns as $pattern) {
-                if (preg_match($pattern, $element)) {
+                if (preg_match($pattern, $element && count($results)<5)) {
                     $results[] = $element;
                 }
             }
@@ -164,7 +164,7 @@ if (!function_exists('scrape_twitter_links')) {
 
         foreach ($href_array as $element) {
             foreach ($patterns as $pattern) {
-                if (preg_match($pattern, $element)) {
+                if (preg_match($pattern, $element && count($results)<5) ) {
                     $results[] = $element;
                 }
             }
@@ -182,7 +182,7 @@ if (!function_exists('scrape_linkedin_links')) {
 
         foreach ($href_array as $element) {
             foreach ($patterns as $pattern) {
-                if (preg_match($pattern, $element)) {
+                if (preg_match($pattern, $element && count($results)<5)) {
                     $results[] = $element;
                 }
             }
