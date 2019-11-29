@@ -53,6 +53,7 @@
                 <ul class="list-group">
                 @foreach($linkedin as $l)
                         <li class="list-group-item"><a href="{{$l}}" target="_blank">{{$l}}</a></li>
+                        <!--Test-->
                 @endforeach
                 </ul>
 
